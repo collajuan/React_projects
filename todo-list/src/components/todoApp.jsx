@@ -1,7 +1,9 @@
 import { useState } from "react";
+import Todo from "./todo";
+import './todoApp.css'
 
 function TodoApp() {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("hola");
   const [todos, setTodos] = useState([]);
 
   function handleChange(event) {
@@ -18,7 +20,19 @@ function TodoApp() {
     };
 
     setTodos([...todos, newTodo]);
-    setTitle('')
+    setTitle("");
+  }
+
+  function handleUpdate(id, value) {
+    const temp = [...todos];
+    const item = temp.find((item) => item.id === id);
+    item.title = value;
+    setTodos(temp);
+  }
+
+  function handleDelete(id) {
+    const temp = todos.filter((item) => item.id !== id);
+    setTodos(temp);
   }
 
   return (
@@ -34,7 +48,12 @@ function TodoApp() {
       </form>
       <div className="todosContainer">
         {todos.map((item) => (
-          <div key={item.id}>{item.title}</div>
+          <Todo
+            key={item.id}
+            item={item}
+            onUpdate={handleUpdate}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
     </div>
