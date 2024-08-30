@@ -1,6 +1,12 @@
+import { useState } from "react";
 
 
 
 export default function WeatherApp(){
-    return <h1>Hola</h1>
+    const [weather, setWeather] = useState(null);
+
+    return <div>
+        <form></form>
+        <div></div>
+    </div>;
 }
