@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 import WeatherForm from './weatherForm'
+import WeatherMainInfo from './weatherMainInfo'
+
+import styles from './weatherApp.module.css'
 
 function WeatherApp() {
 	const [weather, setWeather] = useState(null)
@@ -9,13 +12,17 @@ function WeatherApp() {
 		loadInfo()
 	}, [])
 
+	useEffect(() => {
+		document.title = `Weather | ${weather?.location.name ?? ''}`
+	})
+
 	async function loadInfo(city='london'){	
 		try {
 			const request = await fetch(`${url}&key=${process.env.REACT_APP_KEY}&q=${city}`)
 			const data = await request.json()
 			console.log(data);
-			setWeather(data)
 			
+			setWeather(data)			
 		} catch (error) {
 			// console.log(error);			
 		}
@@ -27,10 +34,10 @@ function WeatherApp() {
 	}
 
   return (
-		<div>
+		<div className={styles.weatherContainer}>
 			<WeatherForm onChangeCity={handleChangeCity}/>
-			<div>{weather?.current.temp_c}</div>
-		</div>
+			<WeatherMainInfo weather={weather} />
+			</div>
   )
 }
 
